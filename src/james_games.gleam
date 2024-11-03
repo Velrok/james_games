@@ -1,22 +1,32 @@
 import draw
+import game.{type Game}
+import gleam/int
 import p5js_gleam.{type P5}
 import p5js_gleam/bindings as p5
-
-type Game {
-  Game(name: String)
-}
+import player.{type Player}
+import plinth/browser/window
+import plinth/javascript/console
 
 fn setup(p: P5) -> Game {
-  p5.create_canvas(p, 800.0, 600.0)
-  Game(name: "James Games")
+  let win = window.self()
+  let width = window.inner_width(win) - 20
+  let height = window.inner_height(win) - 20
+
+  let player_img = p5.load_image(p, "./assets/ball.png")
+
+  p5.create_canvas(p, int.to_float(width), int.to_float(height))
+
+  game.Game(
+    player: player.new(),
+    player_img: player_img,
+    name: "James Games",
+    window_with: width,
+    window_height: height,
+  )
 }
 
 fn draw(p: P5, game: Game) {
-  p5.background(p, "white")
-  p5.fill(p, "#000000")
-  p5.text_align(p, p5.center, p5.center)
-  draw.circle(p)
-  p5.text(p, game.name, 400.0, 300.0)
+  draw.game(p, game)
 }
 
 pub fn main() {
