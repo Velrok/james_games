@@ -1,5 +1,19 @@
-import gleam/io
+import p5js_gleam.{type P5}
+import p5js_gleam/bindings as p5
+
+fn setup(p: P5) -> String {
+  p5.create_canvas(p, 800.0, 600.0)
+  "Hello, world!"
+}
+
+fn draw(p: P5, state: String) {
+  p5.background(p, "#888888")
+  p5.fill(p, "#000000")
+  p5.text_align(p, p5.center, p5.center)
+  p5.text(p, state, 400.0, 300.0)
+}
 
 pub fn main() {
-  io.println("Hello from james_games!")
+  p5js_gleam.create_sketch(init: setup, draw: draw)
+  |> p5.start_sketch
 }
